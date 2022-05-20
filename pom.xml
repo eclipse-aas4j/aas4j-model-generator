@@ -77,14 +77,6 @@
 
     <profiles>
         <profile>
-            <id>dev-bader-aas</id>
-            <properties>
-                <infomodel-sourcebase>
-                    C:\Users\sbader\git\AAS\aas-spec\schemas\rdf\full
-                </infomodel-sourcebase>
-            </properties>
-        </profile>
-        <profile>
             <id>CI</id>
             <properties>
                 <infomodel-sourcebase>
@@ -100,30 +92,6 @@
                 </infomodel-sourcebase>
             </properties>
         </profile>
-    		<profile>
-    			<id>MB</id>
-    			<properties>
-    				<infomodel-sourcebase>
-    					../InfoModel
-    				</infomodel-sourcebase>
-    			</properties>
-    		</profile>
-    		<profile>
-    			<id>MB-AAS</id>
-    			<properties>
-    				<infomodel-sourcebase>
-    					../aas-specs/schemas/rdf/full
-    				</infomodel-sourcebase>
-    			</properties>
-    		</profile>
-    		<profile>
-    			<id>MB-AAS-minimal</id>
-    			<properties>
-    				<infomodel-sourcebase>
-    					../aas-specs/schemas/rdf/minimal
-    				</infomodel-sourcebase>
-    			</properties>
-    		</profile>
         <profile>
             <id>format</id>
             <properties>
@@ -132,22 +100,6 @@
                 </infomodel-sourcebase>
             </properties>
         </profile>
-    		<profile>
-    			<id>PNL</id>
-    			<properties>
-    				<infomodel-sourcebase>
-    					../InformationModel
-    				</infomodel-sourcebase>
-    			</properties>
-    		</profile>
-        <profile>
-    			<id>PNL-AAS</id>
-    			<properties>
-    				<infomodel-sourcebase>
-    					../aas-specs/schemas/rdf
-    				</infomodel-sourcebase>
-    			</properties>
-    		</profile>
         <profile>
             <id>AAS</id>
             <properties>
