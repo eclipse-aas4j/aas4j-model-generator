@@ -1,0 +1,108 @@
+#
+# Copyright (c) 2021 Fraunhofer-Gesellschaft zur Foerderung der angewandten Forschung e. V.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+
+prefix idstt: <https://w3id.org/idsa/transformationtemplates/>
+
+template idstt:create-lang-string {
+
+    st:call-template(idstt:get-license)
+    st:call-template(idstt:get-package, 'interface')
+    st:call-template(idstt:basic-imports)
+
+    "\n@IRI(\"rdf:langString\")"
+    "\npublic class LangString implements Serializable {\n"
+    "\n\n\t"
+
+    "private String language = null;\n"
+    "private String value = null;\n"
+
+    "public LangString() {\n"
+             "super();\n"
+         "}"
+
+    "public LangString(String valueAndLanguage) {\n"
+             "if(valueAndLanguage.contains(\"@\"))\n"
+             "{"
+             "    String[] splitString = valueAndLanguage.split(\"@\");\n"
+             "    this.value = splitString[0];\n"
+             "    this.language = splitString[1];\n"
+             "}\n"
+             "else\n"
+             "{\n"
+             "    this.value = valueAndLanguage;\n"
+             "}\n"
+         "}\n"
+
+    "public LangString(String value, String language) {\n"
+             "this.value = value;\n"
+             "this.language = language;\n"
+         "}\n"
+
+
+    "public String getLanguage() {\n"
+             "return language;\n"
+         "}"
+
+    "public void setLanguage(String language) {\n"
+            "this.language = language;\n"
+        "}\n"
+
+    "public String getValue() {"
+             "return value;"
+         "}"
+
+    "public void setValue(String value) {"
+             "this.value = value;"
+         "}"
+
+
+    "@Override\n"
+         "public boolean equals(Object obj)"
+         "{"
+             "if (this == obj) {"
+                 "return true;"
+             "} else if (obj == null) {"
+                 "return false;"
+             "} else if (this.getClass() != obj.getClass()) {"
+                 "return false;"
+             "} else {"
+                 "LangString other = (LangString) obj;"
+                 "return Objects.equals(this.language, other.language) &&"
+                         "Objects.equals(this.value, other.value);"
+             "}"
+         "}"
+
+    "@Override\n"
+        "public int hashCode()"
+        "{"
+            "return Objects.hash(this.language, this.value);"
+        "}"
+
+
+    "@Override\n"
+        "public String toString() {"
+            "String result = this.value;"
+            "if (this.language != null && !this.language.isEmpty())"
+            "{"
+                "return \"\\\"\" + result + \"\\\"@\" + this.language;"
+            "}"
+            "return result;"
+        "}"
+
+    "\n\n}"
+}
+WHERE {
+}

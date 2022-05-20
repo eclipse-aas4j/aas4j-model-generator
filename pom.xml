@@ -1,0 +1,292 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>org.eclipse.aas4j</groupId>
+    <artifactId>common</artifactId>
+    <packaging>pom</packaging>
+    <version>${revision}</version>
+
+
+    <name>AAS Code Gen Tool</name>
+    <description>The Code Generation Tool to create Java classes of the AAS Metamodel.</description>
+    <url>https://github.com/eclipse-digitaltwin/aas4j-model-generator</url>
+    <inceptionYear>2021</inceptionYear>
+    <organization>
+      <name>Fraunhofer Institute for Intelligent Analysis and Information Systems IAIS</name>
+      <url>https://www.iais.fraunhofer.de/</url>
+    </organization>
+    <licenses>
+      <license>
+        <name>Apache License, Version 2.0</name>
+        <url>https://www.apache.org/licenses/LICENSE-2.0.txt</url>
+        <distribution>repo</distribution>
+      </license>
+    </licenses>
+
+	<developers>
+		<developer>
+			<name>Sebastian Bader</name>
+			<email>s.bader@sap.com</email>
+			<organization>SAP SE</organization>
+			<organizationUrl>https://www.sap.com/</organizationUrl>
+			<roles>
+				<role>lead</role>
+				<role>developer</role>
+			</roles>
+		</developer>
+		<developer>
+			<name>Matthias Böckmann</name>
+			<email>matthias.boeckmann@iais.fraunhofer.de</email>
+			<organization>Fraunhofer Institute for Intelligent Analysis and Information Systems IAIS</organization>
+			<organizationUrl>https://www.iais.fraunhofer.de/</organizationUrl>
+			<roles>
+				<role>developer</role>
+			</roles>
+		</developer>
+	</developers>
+
+	<issueManagement>
+		<system>Github</system>
+		<url>https://github.com/eclipse-digitaltwin/aas4j-model-generator/issues</url>
+	</issueManagement>
+
+    <modules>
+        <module>util</module>
+        <module>generator</module>
+        <module>aas</module>
+    </modules>
+    <properties>
+  		  <!-- General -->
+        <revision>1.2.0</revision>
+        <jackson.version>2.11.2</jackson.version>
+        <!--<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>-->
+    		<email>contact@ids.fraunhofer.de</email>
+
+    		<!-- Build info -->
+    		<java.version>11</java.version>
+    		<maven.compiler.release>${java.version}</maven.compiler.release>
+    		<maven.minimum.version>3.3.9</maven.minimum.version>
+
+        <gpg.keyname>0xDFCC34A6</gpg.keyname>
+        <plugin.license.version>4.1</plugin.license.version>
+        <plugin.gpg.version>3.0.1</plugin.gpg.version>
+  	</properties>
+
+    <profiles>
+        <profile>
+            <id>dev-bader-aas</id>
+            <properties>
+                <infomodel-sourcebase>
+                    C:\Users\sbader\git\AAS\aas-spec\schemas\rdf\full
+                </infomodel-sourcebase>
+            </properties>
+        </profile>
+        <profile>
+            <id>CI</id>
+            <properties>
+                <infomodel-sourcebase>
+                    InformationModel
+                </infomodel-sourcebase>
+            </properties>
+        </profile>
+        <profile>
+            <id>CI-AAS</id>
+            <properties>
+                <infomodel-sourcebase>
+                    aas-specs/schemas/rdf
+                </infomodel-sourcebase>
+            </properties>
+        </profile>
+    		<profile>
+    			<id>MB</id>
+    			<properties>
+    				<infomodel-sourcebase>
+    					../InfoModel
+    				</infomodel-sourcebase>
+    			</properties>
+    		</profile>
+    		<profile>
+    			<id>MB-AAS</id>
+    			<properties>
+    				<infomodel-sourcebase>
+    					../aas-specs/schemas/rdf/full
+    				</infomodel-sourcebase>
+    			</properties>
+    		</profile>
+    		<profile>
+    			<id>MB-AAS-minimal</id>
+    			<properties>
+    				<infomodel-sourcebase>
+    					../aas-specs/schemas/rdf/minimal
+    				</infomodel-sourcebase>
+    			</properties>
+    		</profile>
+        <profile>
+            <id>format</id>
+            <properties>
+                <infomodel-sourcebase>
+                    ../rdf
+                </infomodel-sourcebase>
+            </properties>
+        </profile>
+    		<profile>
+    			<id>PNL</id>
+    			<properties>
+    				<infomodel-sourcebase>
+    					../InformationModel
+    				</infomodel-sourcebase>
+    			</properties>
+    		</profile>
+        <profile>
+    			<id>PNL-AAS</id>
+    			<properties>
+    				<infomodel-sourcebase>
+    					../aas-specs/schemas/rdf
+    				</infomodel-sourcebase>
+    			</properties>
+    		</profile>
+        <profile>
+            <id>AAS</id>
+            <properties>
+                <ontology.title>Asset Administration Shell</ontology.title>
+                <ontology.namespace>https://admin-shell.io/aas/3/0/RC01/</ontology.namespace>
+                <ontology.namespace.prefix>aas</ontology.namespace.prefix>
+            </properties>
+        </profile>
+
+        <!-- This profile is for the continuous integration pipeline for deploying to the central repository, which requires artifacts to be signed -->
+        <profile>
+            <id>MavenCentral</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-gpg-plugin</artifactId>
+                        <version>${plugin.gpg.version}</version>
+                        <executions>
+                            <execution>
+                                <id>sign-artifacts</id>
+                                <phase>verify</phase>
+                                <goals>
+                                    <goal>sign</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+
+            <!-- Central Repository deployment configuration -->
+            <distributionManagement>
+                <snapshotRepository>
+                    <id>ossrh</id>
+                    <url>https://s01.oss.sonatype.org/content/repositories/snapshots</url>
+                </snapshotRepository>
+                <repository>
+                    <id>ossrh</id>
+                    <url>https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+                </repository>
+            </distributionManagement>
+        </profile>
+    </profiles>
+
+
+<!--    <distributionManagement>
+        <repository>
+            <id>eis-release-repo</id>
+            <name>maven-releases</name>
+            <url>http://maven.iais.fraunhofer.de/artifactory/eis-ids-release</url>
+        </repository>
+        <snapshotRepository>
+            <id>eis-snapshot-repo</id>
+            <name>maven-snapshots</name>
+            <url>http://maven.iais.fraunhofer.de/artifactory/eis-ids-snapshot</url>
+        </snapshotRepository>
+    </distributionManagement>
+
+    <repositories>
+        <repository>
+            <id>eis-snapshot-repo</id>
+            <name>maven-snapshots</name>
+            <url>http://maven.iais.fraunhofer.de/artifactory/eis-ids-snapshot</url>
+        </repository>
+    </repositories>-->
+
+    <build>
+        <plugins>
+            <!-- This plugin replaces the revision variable in the version by the actual variable value. Only required if submodules exist -->
+            <plugin>
+                <!-- Plugin to activate the generation of javadocs -->
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>3.2.0</version>
+                <configuration>
+                  <source>8</source>
+                  <detectJavaApiLink>false</detectJavaApiLink>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>attach-javadocs</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>flatten-maven-plugin</artifactId>
+                <version>1.2.2</version>
+                <configuration>
+                    <updatePomFile>true</updatePomFile>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>flatten</id>
+                        <phase>process-resources</phase>
+                        <goals>
+                            <goal>flatten</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>flatten.clean</id>
+                        <phase>clean</phase>
+                        <goals>
+                            <goal>clean</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>com.mycila</groupId>
+                <artifactId>license-maven-plugin</artifactId>
+                <version>${plugin.license.version}</version>
+                <configuration>
+                    <licenseSets>
+                        <licenseSet>
+                            <header>license-header.txt</header>
+                            <includes>
+                                <include>**/src/**/*.java</include>
+                            </includes>
+                            <excludes>
+                                <exclude>**/target/generated/**/*.java</exclude>
+                                <exclude>**/src/main/java/org/opcfoundation/ua/_2008/_02/types/*.java</exclude>
+                            </excludes>
+                        </licenseSet>
+                    </licenseSets>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>format</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>

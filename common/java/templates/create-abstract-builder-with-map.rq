@@ -1,0 +1,85 @@
+#
+# Copyright (c) 2021 Fraunhofer-Gesellschaft zur Foerderung der angewandten Forschung e. V.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+
+prefix idstt: <https://w3id.org/idsa/transformationtemplates/>
+
+template idstt:create-abstract-builder-with-map {
+
+    st:call-template(idstt:get-license)
+    st:call-template(idstt:get-package, 'builder')
+
+    "\nimport java.util.Map;\n"
+    "import java.util.HashMap;\n"
+    if(?hasId,
+        "import java.net.URI;\n",
+        ""
+    )
+    "import de.fraunhofer.iais.eis.util.*;\n"
+
+    "\npublic abstract class AbstractBuilder<T> implements Builder<T> {\n"
+    "\n\tprotected final Map<String, Object> map;"
+
+    if(?hasId,
+        "\n\tprotected URI id = null;\n",
+        "\n"
+    )
+
+    "\n\tprotected AbstractBuilder(){"
+    "\n\t\tthis.map = new HashMap<>();"
+    "\n\t}\n"
+
+    if(?hasId,
+        concat(concat(concat(
+            "\n\tpublic AbstractBuilder(URI id) {",
+            "\n\t\tthis();"),
+            "\n\t\tthis.id = id;"),
+            "\n\t}\n"),
+        ""
+    )
+
+    "\n\tpublic AbstractBuilder(Builder<? extends ModelClass> builder) {"
+    "\n\t\tthis();"
+    "\n\t\tfor (Map.Entry<String, Object> entry : builder.getValueMap().entrySet()){"
+    "\n\t\t\tthis.map.put(entry.getKey(), Util.clone(entry.getValue()));"
+    "\n\t\t}"
+    "\n\t}\n"
+
+    if(?hasId,
+        concat(concat(concat(
+            "\n\tpublic AbstractBuilder(URI id, Builder<? extends ModelClass> builder) {",
+            "\n\t\tthis(builder);"),
+            "\n\t\tthis.id = id;"),
+            "\n\t}\n"),
+        ""
+    )
+
+    "\n\tpublic Map<String, Object> getValueMap() {"
+    "\n\t\treturn map;"
+    "\n\t}\n"
+
+    "\n\tpublic abstract T build()"
+    if(?hasId,
+        " throws ConstraintViolationException;",
+        ";"
+    )
+
+    "\n\n}"
+}
+WHERE {
+
+    BIND( st:has-id-label-comment() as ?hasId )
+
+}

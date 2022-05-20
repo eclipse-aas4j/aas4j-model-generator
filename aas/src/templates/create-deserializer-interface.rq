@@ -1,0 +1,131 @@
+#
+# Copyright (c) 2021 Fraunhofer-Gesellschaft zur Foerderung der angewandten Forschung e. V.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+
+prefix idstt: <https://w3id.org/idsa/transformationtemplates/>
+
+template idstt:create-deserializer-interface {
+
+    st:call-template(idstt:get-package, 'serialization')
+    st:call-template(idstt:basic-imports)
+
+    "\n/**"
+      " * Generic deserializer interface to deserialize a given string, Outputstream or "
+      "java.io.File into an instance of AssetAdministrationShellEnvironment"
+      "*/"
+    "\npublic interface Deserializer {\n"
+    "\n\t"
+    "/**"
+          "* Default charset that will be used when no charset is specified"
+          "*/\n"
+    "Charset DEFAULT_CHARSET = StandardCharsets.UTF_8;"
+    "\n\n\t"
+
+    "/**"
+          "* Deserializes a given string into an instance of"
+          " AssetAdministrationShellEnvironment"
+          "\n* @param value a string representation of the"
+          " AssetAdministrationShellEnvironment"
+          "\n* @return an instance of AssetAdministrationShellEnvironment"
+          "\n* @throws DeserializationException if deserialization fails"
+          "*/\n"
+    "AssetAdministrationShellEnvironment read(String value) throws DeserializationException;"
+    "\n\n\t"
+
+    "/**"
+          "* Deserializes a given InputStream into an instance of"
+          " AssetAdministrationShellEnvironment using DEFAULT_CHARSET"
+
+          "\n* @param src an InputStream containing the string representation of the"
+          " AssetAdministrationShellEnvironment"
+          "\n* @return an instance of AssetAdministrationShellEnvironment"
+          "\n* @throws DeserializationException if deserialization fails"
+          "*/\n"
+    "default AssetAdministrationShellEnvironment read(InputStream src) throws DeserializationException {"
+    "\n\t\treturn read(src, DEFAULT_CHARSET);"
+    "\n\t}"
+
+    "\n\n\t"
+
+    "/**"
+          "* Deserializes a given InputStream into an instance of"
+          " AssetAdministrationShellEnvironment using a given charset"
+          "\n* @param src An InputStream containing the string representation of the"
+          " AssetAdministrationShellEnvironment"
+          "\n* @param charset the charset to use for deserialization"
+          "\n* @return an instance of AssetAdministrationShellEnvironment"
+          "\n* @throws DeserializationException if deserialization fails"
+          "*/\n"
+    "default AssetAdministrationShellEnvironment read(InputStream src, Charset charset) throws DeserializationException {"
+    "\n\t\treturn read(new BufferedReader("
+    "\n\t\t\tnew InputStreamReader(src, charset))"
+    "\n\t\t\t.lines()"
+    "\n\t\t\t.collect(Collectors.joining(System.lineSeparator())));"
+    "\n\t}"
+
+    "\n\n\t//Note that the AAS also defines a file class"
+    "\n\n\t"
+    "/**"
+          "* Deserializes a given File into an instance of"
+          " AssetAdministrationShellEnvironment using DEFAULT_CHARSET"
+          "\n* @param file A java.io.File containing the string representation of the"
+          " AssetAdministrationShellEnvironment"
+          "\n* @param charset the charset to use for deserialization"
+          "\n* @return an instance of AssetAdministrationShellEnvironment"
+          "\n* @throws FileNotFoundException if file is not present"
+          "\n* @throws DeserializationException if deserialization fails"
+          "*/\n"
+    "default AssetAdministrationShellEnvironment read(java.io.File file, Charset charset) throws FileNotFoundException, DeserializationException {"
+    "\n\t\treturn read(new FileInputStream(file), charset);"
+    "\n\t}"
+
+    "\n\n\t"
+
+    "/**"
+          "* Deserializes a given File into an instance of"
+          " AssetAdministrationShellEnvironment using a given charset"
+          "\n* @param file a java.io.File containing the string representation of the"
+          " AssetAdministrationShellEnvironment"
+          "\n* @return an instance of AssetAdministrationShellEnvironment"
+          "\n* @throws FileNotFoundException if the file is not present"
+          "\n* @throws DeserializationException if deserialization fails"
+          "*/\n"
+    "default AssetAdministrationShellEnvironment read(java.io.File file) throws FileNotFoundException, DeserializationException {"
+    "\n\t\treturn read(file, DEFAULT_CHARSET);"
+    "\n\t}"
+
+    "\n\n\t"
+
+    "/**"
+          "* Enables usage of custom implementation to be used for deserialization"
+          " instead of default implementation, e.g. defining a custom implementation"
+          " of the Submodel interface"
+          " {@code class CustomSubmodel implements Submodel {}} and calling"
+          " {@code useImplementation(Submodel.class, CustomSubmodel.class);} will"
+          " result in all instances of Submodel will be deserialized as"
+          " CustomSubmodel."
+          " Subsequent class with the same aasInterface parameter will override the"
+          " effects of all previous calls."
+          "\n* @param <T> the type of the interface to replace"
+          "\n* @param aasInterface the class of the interface to replace"
+          "\n* @param implementation the class implementing the interface that should be"
+          " used for deserialization."
+          "*/\n"
+    "<T> void useImplementation(Class<T> aasInterface, Class<? extends T> implementation);"
+
+    "\n\n}"
+}
+WHERE {
+}

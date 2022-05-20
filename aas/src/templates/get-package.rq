@@ -1,0 +1,36 @@
+#
+# Copyright (c) 2021 Fraunhofer-Gesellschaft zur Foerderung der angewandten Forschung e. V.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+
+prefix idstt: <https://w3id.org/idsa/transformationtemplates/>
+
+template idstt:get-package (?type) {
+    "package "
+    if(str(?type) = 'interface', "io.adminshell.aas.v3.model",
+    if(str(?type) = 'bean', "io.adminshell.aas.v3.model.impl",
+    if(str(?type) = 'mixin', "io.adminshell.aas.v3.dataformat.json.mixins",
+    if(str(?type) = 'builder', "io.adminshell.aas.v3.model.builder",
+    if(str(?type) = 'serialization', "io.adminshell.aas.v3.dataformat",
+    if(str(?type) = 'enum', "io.adminshell.aas.v3.model",
+    if(str(?type) = 'annotations', "io.adminshell.aas.v3.model.annotations",
+    "io.adminshell.aas.v3.model" #default
+    )))))))
+    ";\n"
+
+}
+where
+{
+
+}

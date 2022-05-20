@@ -1,0 +1,50 @@
+#
+# Copyright (c) 2021 Fraunhofer-Gesellschaft zur Foerderung der angewandten Forschung e. V.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+
+prefix idstt: <https://w3id.org/idsa/transformationtemplates/>
+
+template idstt:bean-default-properties (?class) {
+    #"\n\t@JsonProperty(\"@id\")"
+    #"\n\t@JsonAlias({\"@id\", \"id\"})"
+    # "\n\t@NotNull"
+    #"\n\tprotected URI id;"
+    #"\n"
+
+	#Add the labels
+	#"\n\t//List of all labels of this class"
+	#"\n\t@JsonIgnore"
+	#"\n\tprotected List<TypedLiteral> labels = "
+	#if(STRLEN(st:call-template(idstt:get-all-labels, ?class)) > 1,
+	#	#"yes": create List containing all labels, split by comma.
+	#	CONCAT(CONCAT("Arrays.asList(",
+	#	st:call-template(idstt:get-all-labels, ?class)),
+	#	");"),
+	#	#"no": create empty list
+	#	"Collections.emptyList();")
+
+	#"\n\n\t//List of all comments of this class"
+	#"\n\t@JsonIgnore"
+	#"\n\tprotected List<TypedLiteral> comments = "
+	#if(STRLEN(st:call-template(idstt:get-all-comments, ?class)) > 1,
+	#	#"yes": create List containing all comments, split by comma.
+	#	CONCAT(CONCAT("Arrays.asList(",
+	#	st:call-template(idstt:get-all-comments, ?class)),
+	#	");"),
+	#	#"no": create empty list
+	#	"Collections.emptyList();")
+
+}
+where {}

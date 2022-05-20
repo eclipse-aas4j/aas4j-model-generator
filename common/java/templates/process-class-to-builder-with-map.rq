@@ -1,0 +1,116 @@
+#
+# Copyright (c) 2021 Fraunhofer-Gesellschaft zur Foerderung der angewandten Forschung e. V.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+
+prefix idstt: <https://w3id.org/idsa/transformationtemplates/>
+prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+
+template idstt:process-class-to-builder-with-map(?class) {
+
+    st:call-template(idstt:get-license)
+    st:call-template(idstt:get-package, 'builder')
+
+    st:call-template(idstt:basic-imports)
+
+    "\npublic class " st:call-template(idstt:to_builder_name, ?class)
+    " extends AbstractBuilder<" st:call-template(idstt:to_bean_name, ?class) "> {\n"
+
+    # constructors
+
+    "\n"
+    "\n\tpublic " st:call-template(idstt:to_builder_name, ?class) "() {"
+    "\n\t\tsuper();"
+    "\n\t}"
+    "\n"
+
+	if (?hasId,
+      # then
+          CONCAT(CONCAT(CONCAT(CONCAT(
+		  "\n\tpublic ",
+		  st:call-template(idstt:to_builder_name, ?class)),
+		  "(URI id) {"),
+		  "\n\t\tsuper(id);"),
+		  "\n\t}\n"),
+      # else
+          ""
+    )
+
+    "\n\tpublic " st:call-template(idstt:to_builder_name, ?class) "(Builder<? extends ModelClass> builder) {"
+    "\n\t\tsuper(builder);"
+    "\n\t}"
+    "\n"
+
+
+	if (?hasId,
+      # then
+	  CONCAT(CONCAT(CONCAT(CONCAT(
+			"\n\tpublic ",
+			st:call-template(idstt:to_builder_name, ?class)),
+			"(URI id, Builder<? extends ModelClass> builder) {"),
+		    "\n\t\tsuper(id, builder);"),
+			"\n\t}"),
+      # else
+          ""
+    )
+
+
+    # method implementation
+
+    st:call-template(idstt:subclass-properties-to-methods, ?class, 'builder')
+
+    # build method
+
+    "\n\n\t/**"
+    "\n\t* This function takes the values that were set previously via the other functions of this class and turns them into a Java bean."
+    "\n\t* @return Bean with specified values"
+    if(?hasId,
+        "\n\t* @throws ConstraintViolationException This exception is thrown, if a validator is used and a violation is found.",
+        ""
+    )
+    "\n\t*/"
+    "\n\tfinal public " st:call-template(idstt:to_bean_name, ?class) " build() "
+    if(?hasId,
+        "throws ConstraintViolationException ",
+        ""
+    )
+    "{"
+    "\n\t\t" st:call-template(idstt:to_bean_name, ?class) " " lcase(substr(st:call-template(idstt:to_bean_name, ?class), 1, 1)) substr(st:call-template(idstt:to_bean_name, ?class), 2)
+        " = Util.fillInstanceFromMap(new " st:call-template(idstt:to_bean_name, ?class) "(), this.map);"
+	if (?hasId,
+      # then
+	  CONCAT(CONCAT(CONCAT(CONCAT(CONCAT(CONCAT(CONCAT(CONCAT(CONCAT(CONCAT(
+		"\n\t\t ", lcase(substr(st:call-template(idstt:to_bean_name, ?class), 1, 1))),
+            substr(st:call-template(idstt:to_bean_name, ?class), 2)),
+            ".id = (this.id == null) ? "),
+            lcase(substr(st:call-template(idstt:to_bean_name, ?class), 1, 1))),
+            substr(st:call-template(idstt:to_bean_name, ?class), 2)),
+            ".id : this.id;"),
+		"\n\t\tVocabUtil.getInstance().validate("),
+		lcase(substr(st:call-template(idstt:to_bean_name, ?class), 1, 1))),
+		substr(st:call-template(idstt:to_bean_name, ?class), 2)),
+		");"),
+
+      # else
+          ""
+    )
+	"\n\t\treturn " lcase(substr(st:call-template(idstt:to_bean_name, ?class), 1, 1)) substr(st:call-template(idstt:to_bean_name, ?class), 2) ";"
+    "\n\t}"
+
+    "\n}\n"
+
+}
+WHERE {
+	BIND( st:has-id-label-comment() as ?hasId )
+}
