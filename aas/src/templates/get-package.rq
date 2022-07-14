@@ -18,14 +18,14 @@ prefix idstt: <https://w3id.org/idsa/transformationtemplates/>
 
 template idstt:get-package (?type) {
     "package "
-    if(str(?type) = 'interface', "io.adminshell.aas.v3.model",
-    if(str(?type) = 'bean', "io.adminshell.aas.v3.model.impl",
-    if(str(?type) = 'mixin', "io.adminshell.aas.v3.dataformat.json.mixins",
-    if(str(?type) = 'builder', "io.adminshell.aas.v3.model.builder",
-    if(str(?type) = 'serialization', "io.adminshell.aas.v3.dataformat",
-    if(str(?type) = 'enum', "io.adminshell.aas.v3.model",
-    if(str(?type) = 'annotations', "io.adminshell.aas.v3.model.annotations",
-    "io.adminshell.aas.v3.model" #default
+    if(str(?type) = 'interface', "org.eclipse.aas4j.v3.rc02.model",
+    if(str(?type) = 'bean', "org.eclipse.aas4j.v3.rc02.model.impl",
+    if(str(?type) = 'mixin', "org.eclipse.aas4j.v3.rc02.dataformat.json.mixins",
+    if(str(?type) = 'builder', "org.eclipse.aas4j.v3.rc02.model.builder",
+    if(str(?type) = 'serialization', "org.eclipse.aas4j.v3.rc02.dataformat",
+    if(str(?type) = 'enum', "org.eclipse.aas4j.v3.rc02.model",
+    if(str(?type) = 'annotations', "org.eclipse.aas4j.v3.rc02.model.annotations",
+    "org.eclipse.aas4j.v3.model" #default
     )))))))
     ";\n"
 

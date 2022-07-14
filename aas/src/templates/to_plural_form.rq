@@ -18,20 +18,23 @@ prefix idstt: <https://w3id.org/idsa/transformationtemplates/>
 
 
 template idstt:to_plural_form(?name) {
-    if(strends(str(?name), "s"),
-        # name ends with "s", don't add another one
-        ?name,
-        if(strends(str(?name), "y"),
-            # name ends with a "y" -> check character before that
-            if (strends(str(?name), "ay") || strends(str(?name), "ey") || strends(str(?name), "oy") || strends(str(?name), "uy"),
-                # name ends with "<vowel>" + "y", replace with "ys", e.g. key -> keys
-                concat(str(?name), "s"),
-                # name ends with "<consonant>" + "y", replace with "ies", e.g. query -> queries
-                concat(substr(str(?name), 1, strlen(?name) - 1), "ies")
-            ),
-            # default case: add an s add the end
-            concat(str(?name), "s")
-        )
-    )
+    concat(str(?name), "")
+    # TODO: check again after plural decisions in the metamodel have been made. Currently, this function causes too many
+    # errors.
+    #if(strends(str(?name), "s"),
+    #    # name ends with "s", don't add another one
+    #    ?name,
+    #    if(strends(str(?name), "y"),
+    #        # name ends with a "y" -> check character before that
+    #        if (strends(str(?name), "ay") || strends(str(?name), "ey") || strends(str(?name), "oy") || strends(str(?name), "uy"),
+    #            # name ends with "<vowel>" + "y", replace with "ys", e.g. key -> keys
+    #            concat(str(?name), "s"),
+    #            # name ends with "<consonant>" + "y", replace with "ies", e.g. query -> queries
+    #            concat(substr(str(?name), 1, strlen(?name) - 1), "ies")
+    #        ),
+    #        # default case: add an s add the end
+    #        concat(str(?name), "s")
+    #    )
+    #)
 }
 WHERE {}

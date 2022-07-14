@@ -152,7 +152,7 @@
                 <configuration>
                     <filesets>
                         <fileset>
-                            <directory>${basedir}/src/main/java/io/adminshell</directory>
+                            <directory>${basedir}/src/main/java/org/eclipse</directory>
                             <includes>
                                 <include>**/*.java</include>
                             </includes>
@@ -262,9 +262,9 @@
                         <phase>initialize</phase>
                         <configuration>
                             <target>
-                                <mkdir dir="${tmp-path}/io/adminshell/aas/v3/model/impl"/>
-                                <mkdir dir="${tmp-path}/io/adminshell/aas/v3/model/builder"/>
-                                <mkdir dir="${tmp-path}/io/adminshell/aas/v3/model/annotations"/>
+                                <mkdir dir="${tmp-path}/org/eclipse/aas4j/v3/rc02/model/impl"/>
+                                <mkdir dir="${tmp-path}/org/eclipse/aas4j/v3/rc02/model/builder"/>
+                                <mkdir dir="${tmp-path}/org/eclipse/aas4j/v3/rc02/model/annotations"/>
                             </target>
                         </configuration>
                         <goals>

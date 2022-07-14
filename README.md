@@ -36,7 +36,7 @@ A detailed documentation how to use the tool and how to prepare the input and th
 
 | Name        | Affiliation           | Github Account | Parent | AAS  | Util | Generator |
 --- | --- | --- | :---: | :---: | :---: | :---: |
-| Sebastian Bader | Fraunhofer IAIS | [sebbader](https://github.com/sebbader) | x | x | x | x |
+| Sebastian Bader | SAP SE | [sebbader](https://github.com/sebbader) | x | x | x | x |
 | Matthias Böckmann | Fraunhofer IAIS | [maboeckmann](https://github.com/maboeckmann) | x | x | x | x |
 | Pascal Linden | Fraunhofer IAIS | [plinden](https://github.com/plinden) | x | x | x | x |
 

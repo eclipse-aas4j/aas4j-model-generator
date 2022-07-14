@@ -215,6 +215,14 @@
         </repository>
     </repositories>-->
 
+    <repositories>
+        <repository>
+            <id>mavenCentral</id>
+            <name>maven-snapshots</name>
+            <url>https://repo1.maven.org/maven2</url>
+        </repository>
+    </repositories>
+
     <build>
         <plugins>
             <!-- This plugin replaces the revision variable in the version by the actual variable value. Only required if submodules exist -->
