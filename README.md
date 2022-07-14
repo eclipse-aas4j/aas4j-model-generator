@@ -1,7 +1,10 @@
+:warning:  **Attention** - this project is the new home for the 
+AAS libraries for java previously available in [admin-shell-io](https://github.com/admin-shell-io).
+# Eclipse AAS4J (:construction: migration in progress, initial contribution)
+
 # Eclipse AAS4J - AAS Code Generation Tool for Java
 
 This is a tool for the automated creation of a Java library containing all classes, properties and enumerations of the Asset Administration Shell (AAS) Metamodel. The tool itself is completly written in Java and uses the shapes constraint language (SHACL) to specify annotations and cardinalities for the Java classes.
-
 
 
 # Build and Use
