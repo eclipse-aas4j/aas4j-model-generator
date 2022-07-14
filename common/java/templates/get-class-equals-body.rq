@@ -1,0 +1,45 @@
+#
+# Copyright (c) 2021 Fraunhofer-Gesellschaft zur Foerderung der angewandten Forschung e. V.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+
+prefix idstt: <https://w3id.org/idsa/transformationtemplates/>
+
+template idstt:get-class-equals-body(?class) {
+
+    " {"
+    "\n\t\tif (this == obj) {"
+    "\n\t\t\treturn true;"
+    "\n\t\t} else if (obj == null) {"
+    "\n\t\t\treturn false;"
+    "\n\t\t} else if (this.getClass() != obj.getClass()) {"
+    "\n\t\t\treturn false;"
+    "\n\t\t}"
+
+    # if no properties are present, only check the above
+    if (bound(?hasProperties) && strlen(?hasProperties) > 1,
+        # then
+        concat(concat(concat(concat(concat(concat(concat(concat(
+            " else {\n\t\t\t",
+            st:call-template(idstt:to_bean_name, ?class)), " other = ("), st:call-template(idstt:to_bean_name, ?class)), ") obj;"),
+            "\n\t\t\treturn "), st:call-template(idstt:get-class-equals-body-properties, ?class)), ";"),
+            "\n\t\t}"),
+        # else
+        "\n\t\treturn true;"
+    )
+    "\n\t}"
+}
+WHERE  {
+    BIND(st:call-template(idstt:list-class-properties, ?class) AS ?hasProperties)
+}

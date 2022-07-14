@@ -1,0 +1,47 @@
+# This workflow will execute the AAS Code Generation Tool for Java based on the latest version of the AAS RDF Ontology
+# (see: https://github.com/admin-shell-io/aas-specs/)
+# For more information see: https://help.github.com/actions/language-and-framework-guides/building-and-testing-java-with-maven
+
+name: Generate and Deploy the new Library to Sonatype
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: actions/checkout@master
+        with:
+          repository: admin-shell-io/aas-specs
+          path: aas-specs
+          ref: 81e9f3b7aabe4c0a77e738ba9f52415daf589cd6 # use only until the latest bugfix is merged (state: November 2021)
+
+      - name: Remove the examples
+        run: rm -R aas-specs/schemas/rdf/examples
+
+      - name: Set up JDK 11
+        uses: actions/setup-java@v2
+        with:
+          java-version: 11
+          distribution: 'adopt'
+          cache: maven
+          server-id: ossrh
+          server-username: OSSRH_USERNAME
+          server-password: OSSRH_PASSWORD
+          gpg-private-key: ${{ secrets.MYGPGKEY_SEC }}
+
+      - name: Build with Maven
+        run: mvn -P CI-AAS install --file pom.xml
+
+      - name: Publish to Apache Maven Central
+        run: mvn -pl aas -P MavenCentral,CI-AAS deploy
+        env:
+          OSSRH_USERNAME: sebbader
+          OSSRH_PASSWORD: ${{ secrets.SEBBADER_OSSHR_PASSWORD }}
+          GPG_PASSPHRASE: ${{ secrets.GPG_KEY_PASSWORD }}
+          MAVEN_GPG_PASSPHRASE: ${{ secrets.GPG_KEY_PASSWORD }}

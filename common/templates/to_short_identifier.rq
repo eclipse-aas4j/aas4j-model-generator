@@ -1,0 +1,28 @@
+#
+# Copyright (c) 2021 Fraunhofer-Gesellschaft zur Foerderung der angewandten Forschung e. V.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+
+prefix idstt: <https://w3id.org/idsa/transformationtemplates/>
+
+# Parse the "shortId" of a class or property from its URI.
+# Delimiters before the shortId are expected to be either "/" or "#".
+# E.g.
+# - https://example.de/version01#Message -> "Messege"
+# - https://example.de/version01/Message/sender -> "sender"
+
+template idstt:to_short_identifier(?class) {
+    replace(str(?class), "^.*[/#]([^/#]+)/?", "$1")
+}
+where {}

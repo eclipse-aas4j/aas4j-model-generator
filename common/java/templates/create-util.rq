@@ -1,0 +1,100 @@
+#
+# Copyright (c) 2021 Fraunhofer-Gesellschaft zur Foerderung der angewandten Forschung e. V.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+
+prefix idstt: <https://w3id.org/idsa/transformationtemplates/>
+
+template idstt:create-util {
+
+    st:call-template(idstt:get-license)
+    st:call-template(idstt:get-package, 'interface')
+
+    "import java.lang.reflect.Method;\n"
+    "import java.lang.reflect.InvocationTargetException;\n"
+    "import java.net.URI;\n"
+    "import java.util.ArrayList;\n"
+    "import java.util.Arrays;\n"
+    "import java.util.List;\n"
+    "import java.util.Map;\n"
+    "import java.util.stream.Collectors;\n"
+    "import javax.xml.datatype.XMLGregorianCalendar;\n"
+    "import de.fraunhofer.iais.eis.util.RdfResource;\n"
+	"import de.fraunhofer.iais.eis.util.TypedLiteral;\n"
+
+    "\npublic class Util {\n"
+
+    "\n\tpublic static <T> ArrayList<T> asList(T... elements) {"
+    "\n\t\treturn new ArrayList<T>(Arrays.asList(elements));"
+    "\n\t}"
+    "\n"
+    "\n\tpublic static Object clone(Object object) {"
+        "\n\t\tif (object instanceof ModelClass) {"
+            "\n\t\t\treturn ((ModelClass) object).deepCopy();"
+        "\n\t\t} else if (object instanceof List) {"
+            "\n\t\t\treturn ((List<?>) object).stream().map(Util::clone).collect(Collectors.toList());"
+        "\n\t\t} else if (object instanceof URI) {"
+            "\n\t\t\treturn URI.create(object.toString());"
+        "\n\t\t} else if (object instanceof XMLGregorianCalendar) {"
+            "\n\t\t\treturn ((XMLGregorianCalendar) object).clone();"
+        "\n\t\t} else if (object instanceof byte[]) {"
+            "\n\t\t\treturn ((byte[]) object).clone();"
+        "\n\t\t} else if (object instanceof Byte[]) {"
+            "\n\t\t\treturn ((Byte[]) object).clone();"
+        if(!?hasTypedLiteral,
+            concat(concat(concat(concat(concat(
+                "\n\t\t} else if (object instanceof TypedLiteral) {",
+                "\n\t\t\tif (((TypedLiteral) object).getLanguage() != null){"),
+                "\n\t\t\t\treturn new TypedLiteral(((TypedLiteral) object).getValue(), ((TypedLiteral) object).getLanguage());"),
+                "\n\t\t\t} else {"),
+                "\n\t\t\t\treturn new TypedLiteral(((TypedLiteral) object).getValue(), URI.create(((TypedLiteral) object).getType()));"),
+                "\n\t\t\t}"),
+            ""
+        )
+        "\n\t\t} else if (object instanceof RdfResource) {"
+            "\n\t\t\treturn new RdfResource(((RdfResource) object).getValue(), URI.create(((RdfResource) object).getType()));"
+        "\n\t\t} else {"
+            "\n\t\t\t// basic java classes like String that are not copied by Reference"
+            "\n\t\t\treturn object;"
+        "\n\t\t}"
+    "\n\t}"
+
+    "\n\tpublic static <T> T fillInstanceFromMap(T instance, Map<String, Object> map) {"
+        "\n\t\tfor (Map.Entry<String, Object> entry : map.entrySet()) {"
+            "\n\t\t\tString fieldName = entry.getKey();"
+            "\n\t\t\tString capitalizedFieldName = fieldName.substring(0, 1).toUpperCase() + fieldName.substring(1);"
+            "\n\t\t\tObject fieldValue = entry.getValue();"
+            "\n\t\t\ttry{"
+                "\n\t\t\t\tif (fieldValue != null){"
+                    "\n\t\t\t\t\tClass<?> clazz = instance.getClass().getMethod(\"get\" + capitalizedFieldName).getReturnType();"
+                    "\n\t\t\t\t\tMethod setterMethod = instance.getClass().getMethod(\"set\" + capitalizedFieldName, clazz);"
+                    "\n\t\t\t\t\ttry {"
+                        "\n\t\t\t\t\t\tsetterMethod.invoke(instance, fieldValue);"
+                    "\n\t\t\t\t\t} catch (IllegalAccessException | InvocationTargetException e) {"
+                        "\n\t\t\t\t\t\t//e.printStackTrace();"
+                    "\n\t\t\t\t\t}"
+                "\n\t\t\t\t}"
+            "\n\t\t\t} catch (NoSuchMethodException e) {"
+                "\n\t\t\t\t//e.printStackTrace();"
+            "\n\t\t\t}"
+        "\n\t\t}"
+        "\n\t\treturn instance;"
+    "\n\t}"
+
+"\n\n}"
+
+}
+WHERE {
+    BIND( st:use-langString-over-typedLiteral() as ?hasTypedLiteral )
+}

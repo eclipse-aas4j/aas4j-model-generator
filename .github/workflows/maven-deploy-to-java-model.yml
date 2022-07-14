@@ -1,0 +1,51 @@
+# This workflow will execute the AAS Code Generation Tool for Java based on the latest version of the AAS RDF Ontology
+# (see: https://github.com/admin-shell-io/aas-specs/)
+# For more information see: https://help.github.com/actions/language-and-framework-guides/building-and-testing-java-with-maven and
+# https://github.com/dmnemec/copy_file_to_another_repo_action
+
+name: Generate and Deploy new source classes to the Java-Model Repo
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: actions/checkout@master
+        with:
+          repository: admin-shell-io/aas-specs
+          path: aas-specs
+          ref: 81e9f3b7aabe4c0a77e738ba9f52415daf589cd6 # use only until the latest bugfix is merged (state: November 2021)
+
+      - name: Show current Working directory
+        run: ls
+
+      - name: Remove the examples
+        run: rm -R aas-specs/schemas/rdf/examples
+
+      - name: Set up JDK 11
+        uses: actions/setup-java@v2
+        with:
+          java-version: '11'
+          distribution: 'adopt'
+          cache: maven
+
+      - name: Build with Maven
+        run: mvn -P CI-AAS -B package --file pom.xml
+
+      - name: Push Generated Files
+        uses: dmnemec/copy_file_to_another_repo_action@main
+        env:
+          API_TOKEN_GITHUB: ${{ secrets.API_TOKEN_GITHUB }}
+        with:
+          source_file: 'aas/src/main/java/io/adminshell/aas/v3/model'
+          destination_repo: 'admin-shell-io/java-model'
+          destination_folder: 'src/main/java/io/adminshell/aas/v3/'
+          user_email: 'sebastian.r.bader@web.de'
+          user_name: 'Sebastian Bader'
+          commit_message: 'This is an automated commit that was triggered by a change in the main branch of https://github.com/admin-shell-io/java-generator/'

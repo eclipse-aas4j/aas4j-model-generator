@@ -1,0 +1,112 @@
+#
+# Copyright (c) 2021 Fraunhofer-Gesellschaft zur Foerderung der angewandten Forschung e. V.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+
+prefix idstt: <https://w3id.org/idsa/transformationtemplates/>
+
+# Helper template which defines functions available for all other templates.
+# This allows for the dynamic definition of a ontology namespace and prefix from the
+# pom.xml in the main directory via <property> tags.
+
+template st:profile {}
+where {}
+
+function st:get-namespace() {
+   "${ontology.namespace}"
+}
+
+function st:get-namespace-prefix() {
+   "${ontology.namespace.prefix}"
+}
+
+function st:get-title() {
+   "${ontology.title}"
+}
+
+function st:has-builder-with-map() {
+   if (contains("${ontology.namespace.prefix}", "aas"),
+      # for AAS -> don't create this builders
+      false, false
+   )
+}
+
+function st:has-extendable-builder() {
+   if (contains("${ontology.namespace.prefix}", "aas"),
+      # for AAS -> use this builder approach
+      true, true
+   )
+}
+
+function st:has-mixin() {
+   if (contains("${ontology.namespace.prefix}", "aas"),
+      # As of now, Mixins are no longer required
+      false, false
+   )
+}
+
+function st:has-id-label-comment() {
+   if (contains("${ontology.namespace.prefix}", "aas"),
+      # for AAS -> no IDs, labels or comments
+      false, false
+   )
+}
+
+function st:has-superclass-of-all-classes() {
+   if (contains("${ontology.namespace.prefix}", "aas"),
+      # for AAS -> no
+      false, false
+   )
+}
+
+function st:use-langString-over-typedLiteral() {
+   if (contains("${ontology.namespace.prefix}", "aas"),
+      # for AAS -> no usage of TypedLiteral wanted
+      true, true
+   )
+}
+
+function st:add-jackson-annotations() {
+   if (contains("${ontology.namespace.prefix}", "aas"),
+      # for AAS -> no serialization specific information wanted
+      false, false
+   )
+}
+function st:default-constructor-visibility() {
+   if (contains("${ontology.namespace.prefix}", "aas"),
+      # for AAS -> builders in different module than beans
+      "public", "public"
+   )
+}
+
+function st:section-comments() {
+   if (contains("${ontology.namespace.prefix}", "aas"),
+      # for AAS -> no inline comments desired
+      false, false
+   )
+}
+
+function st:has-deep-copy() {
+   if (contains("${ontology.namespace.prefix}", "aas"),
+      # for AAS -> no
+      false, false
+   )
+}
+
+function st:has-builder-exception() {
+   if (contains("${ontology.namespace.prefix}", "aas"),
+      # for AAS -> no
+      false, false
+   )
+}

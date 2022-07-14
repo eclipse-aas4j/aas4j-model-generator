@@ -1,0 +1,50 @@
+#
+# Copyright (c) 2021 Fraunhofer-Gesellschaft zur Foerderung der angewandten Forschung e. V.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+
+prefix idstt: <https://w3id.org/idsa/transformationtemplates/>
+
+template idstt:DEPRECATED_to_java_property_name(?property) {
+    # We need to avoid name collisions on properties. Taking the trivial way of only using the property name
+    # can cause issues, e.g. in the case of
+    # http://myExample/property
+    # http://myExample/SubClass/property
+    # In this case, we MUST NOT parse both to "property". Instead, parse the second one to "subClassProperty" instead
+
+    # Does the property URI include some class name?
+    if(?propertyUriIncludesClassName,
+        # THEN:
+        # Yes it does, choose a more complex property name to avoid collisions
+        # e.g. http://myExample/SubClass/property -> subClassProperty
+        # TODO: Careful: Especially in the case that no namespace is defined (e.g. this if clause is always true), this can cause compile errors if blank nodes are involved
+        CONCAT(CONCAT(CONCAT(
+            LCASE( SUBSTR( STR(?shortDomain), 1, 1)), SUBSTR( STR(?shortDomain), 2)),
+            UCASE( SUBSTR( STR(?shortId), 1, 1))), SUBSTR( STR(?shortId), 2)),
+
+        # ELSE:
+        # No it does not, use simple name, e.g. "property"
+        CONCAT(LCASE( SUBSTR( STR(?shortId), 1, 1)), SUBSTR( STR(?shortId), 2))
+    )
+}
+where {
+    ?property rdfs:domain ?domain .
+    BIND( st:call-template(idstt:to_short_identifier, ?property) as ?shortId )
+    BIND( st:call-template(idstt:to_short_identifier, ?domain) as ?shortDomain )
+
+    BIND( st:get-namespace() as ?ns )
+    BIND( CONCAT(str(?ns), str(st:call-template(idstt:to_short_identifier, ?property))) as ?nsProperty )
+    # Is namespace plus short property name the original URI? If so, the class name is NOT included in the property URI
+    BIND( IF(?nsProperty = STR(?property), false, true) AS ?propertyUriIncludesClassName)
+}

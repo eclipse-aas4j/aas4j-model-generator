@@ -1,0 +1,49 @@
+#
+# Copyright (c) 2021 Fraunhofer-Gesellschaft zur Foerderung der angewandten Forschung e. V.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+
+prefix idstt: <https://w3id.org/idsa/transformationtemplates/>
+prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+
+template idstt:subclass-to-json-annotation(?class, ?target) {
+
+    group {
+        "\n\t"
+		if(str(?target) = 'mixin', "@JsonSubTypes", #in Mixins, we always want Jackson
+			if(?useJackson,
+				"@JsonSubTypes",
+				"@KnownSubtypes"
+			)
+		)
+        ".Type(value = "
+
+        st:call-template(idstt:to_interface_name, ?subClass)
+
+        ".class)" ; separator = ","
+    }
+}
+WHERE {
+    ?class ^rdfs:subClassOf ?subClass.
+
+    OPTIONAL {
+        ?instance a ?subClass.
+    }
+
+    #No need to filter for namespace. We only look for subclasses of the current class, not for super classes.
+    #External ontologies will not have subclass relations to our classes
+    #BIND( st:get-namespace() as ?ns )
+    #FILTER(STRSTARTS(STR(?subClass), STR(?ns)))
+    BIND(st:add-jackson-annotations() AS ?useJackson)
+}

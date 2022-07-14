@@ -1,0 +1,280 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>common</artifactId>
+        <groupId>io.admin-shell.aas</groupId>
+        <version>${revision}</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>model</artifactId>
+
+	<properties>
+    <ontology.title>Asset Administration Shell</ontology.title>
+		<ontology.namespace>https://admin-shell.io/aas/3/0/RC01/</ontology.namespace>
+		<ontology.namespace.prefix>aas</ontology.namespace.prefix>
+	</properties>
+
+	<dependencies>
+        <dependency>
+            <groupId>io.admin-shell.aas</groupId>
+            <artifactId>util</artifactId>
+            <version>${revision}</version>
+        </dependency>
+        <dependency>
+            <groupId>javax.validation</groupId>
+            <artifactId>validation-api</artifactId>
+            <version>2.0.1.Final</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-annotations</artifactId>
+            <version>${jackson.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.admin-shell.aas</groupId>
+            <artifactId>generator</artifactId>
+            <version>${revision}</version>
+            <optional>true</optional>
+        </dependency>
+    </dependencies>
+
+    <profiles>
+        <!-- Operation System specific profiles, activate automatically -->
+        <profile>
+            <id>win</id>
+            <activation>
+                <os>
+                    <family>Windows</family>
+                </os>
+            </activation>
+            <properties>
+                <tmp-path>C:/tmp</tmp-path>
+            </properties>
+        </profile>
+        <profile>
+            <id>unix</id>
+            <activation>
+                <os>
+                    <family>Unix</family>
+                </os>
+            </activation>
+            <properties>
+                <tmp-path>/tmp</tmp-path>
+            </properties>
+        </profile>
+    </profiles>
+
+    <build>
+
+        <!-- Including the LICENSE file -->
+        <resources>
+            <resource>
+                <directory>../</directory>
+                <includes>
+                    <include>LICENSE</include>
+                </includes>
+            </resource>
+        </resources>
+
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.3</version>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>3.0.2</version>
+                <executions>
+                    <!-- assemble the relevant templates into ${tmp-path}/templates -->
+                    <execution>
+                        <id>assemble-templates</id>
+                        <phase>initialize</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+
+                        <configuration>
+                            <outputDirectory>${tmp-path}/templates</outputDirectory>
+                            <resources>
+                                <resource>
+                                    <directory>${basedir}/src/templates</directory>
+                                </resource>
+                                <resource>
+                                    <directory>${basedir}/../common/templates</directory>
+                                    <filtering>true</filtering>
+                                </resource>
+                                <resource>
+                                    <directory>${basedir}/../common/java/templates</directory>
+                                    <filtering>true</filtering>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
+
+                    <!-- copy generated sources to package src directory -->
+                    <execution>
+                        <id>copy-java-beans</id>
+                        <phase>process-sources</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${basedir}</outputDirectory>
+                            <resources>
+                                <resource>
+                                    <targetPath>${basedir}/src/main/java/</targetPath>
+                                    <directory>${tmp-path}</directory>
+                                    <includes>
+                                        <include>**/*.java</include>
+                                    </includes>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!-- cleanup generated java sources and temporary stuff in ${tmp-path} -->
+            <plugin>
+                <artifactId>maven-clean-plugin</artifactId>
+                <version>3.1.0</version>
+                <configuration>
+                    <filesets>
+                        <fileset>
+                            <directory>${basedir}/src/main/java/io/adminshell</directory>
+                            <includes>
+                                <include>**/*.java</include>
+                            </includes>
+                            <excludes>
+                                <exclude>util/</exclude>
+                                <exclude>spi/</exclude>
+                                <exclude>annotation/</exclude>
+                            </excludes>
+                        </fileset>
+                        <fileset>
+                            <directory>${tmp-path}/</directory>
+                            <includes>
+                                <include>**/*.java</include>
+                            </includes>
+                        </fileset>
+                        <fileset>
+                            <directory>${tmp-path}/templates</directory>
+                            <includes>
+                                <include>**/*.rq</include>
+                            </includes>
+                        </fileset>
+                    </filesets>
+                </configuration>
+            </plugin>
+
+            <!--  formatting plugin based on eclipse formatter configuration file -->
+            <plugin>
+                <groupId>com.diffplug.spotless</groupId>
+                <artifactId>spotless-maven-plugin</artifactId>
+                <version>1.20.0</version>
+                <configuration>
+                    <java>
+                        <includes>
+                            <include>src/main/java/**/*.java</include>
+                            <include>src/test/java/**/*.java</include>
+                        </includes>
+                        <importOrder>  <!-- a custom import ordering -->
+                            <order>java,javax,org,com,</order>
+                        </importOrder>
+                        <eclipse>
+                            <!-- AAS Code Style -->
+                            <file>${basedir}/eclipse-java-formatter.xml</file>
+                            <version>4.10.0</version>
+                        </eclipse>
+                        <removeUnusedImports/>
+                    </java>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>spotless-process</id>
+                        <phase>process-sources</phase>
+                        <goals>
+                            <goal>apply</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!-- create a jar with sources -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <version>3.0.1</version>
+                <executions>
+                    <execution>
+                        <id>attach-sources</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>jar-no-fork</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>1.6.0</version>
+                <executions>
+                    <execution>
+                        <id>generate-java-sources</id>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>java</goal>
+                        </goals>
+                        <configuration>
+                            <classpathScope>compile</classpathScope>
+                            <mainClass>de.fraunhofer.iais.eis.generate.Generator</mainClass>
+                            <arguments>
+                                <argument>-vd</argument><argument>${infomodel-sourcebase}</argument>
+                                <argument>-pp</argument><argument>**/*.ttl</argument> <!-- TODO: Exclude examples -->
+                                <argument>-td</argument><argument>${tmp-path}/templates</argument>
+                            </arguments>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!-- create required directories -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <version>3.0.0</version>
+                <executions>
+                    <execution>
+                        <id>createDirs</id>
+                        <phase>initialize</phase>
+                        <configuration>
+                            <target>
+                                <mkdir dir="${tmp-path}/io/adminshell/aas/v3/model/impl"/>
+                                <mkdir dir="${tmp-path}/io/adminshell/aas/v3/model/builder"/>
+                                <mkdir dir="${tmp-path}/io/adminshell/aas/v3/model/annotations"/>
+                            </target>
+                        </configuration>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+        </plugins>
+    </build>
+
+</project>

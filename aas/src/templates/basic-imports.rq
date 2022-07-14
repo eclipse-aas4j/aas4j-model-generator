@@ -1,0 +1,80 @@
+#
+# Copyright (c) 2021 Fraunhofer-Gesellschaft zur Foerderung der angewandten Forschung e. V.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+
+prefix idstt: <https://w3id.org/idsa/transformationtemplates/>
+prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+
+template idstt:basic-imports {
+
+    #"\nimport de.fraunhofer.iais.eis.util.*;"
+    "\nimport io.adminshell.aas.v3.model.*;"
+    "\nimport io.adminshell.aas.v3.model.impl.*;"
+    #"\nimport io.adminshell.aas.v3.dataformat.json.mixins.*;"
+    "\nimport io.adminshell.aas.v3.model.builder.*;"
+    "\nimport io.adminshell.aas.v3.model.annotations.IRI;"
+    "\nimport io.adminshell.aas.v3.model.annotations.KnownSubtypes;"
+    #"\nimport de.fraunhofer.iais.eis.*;"
+    "\n"
+    "\nimport javax.xml.datatype.XMLGregorianCalendar;"
+    "\nimport java.lang.String;"
+    "\nimport java.math.BigInteger;"
+    "\nimport java.net.URL;"
+    "\nimport java.net.URI;"
+    "\nimport java.util.Arrays;"
+    "\nimport java.util.Collections;"
+    "\nimport java.util.HashMap;"
+    "\nimport java.util.Iterator;"
+    "\nimport java.util.List;"
+    "\nimport java.util.ArrayList;"
+    "\nimport java.util.Map;"
+    "\nimport java.util.Objects;"
+	"\nimport java.util.Collection;"
+	"\nimport java.util.Set;"
+	"\nimport java.io.OutputStream;"
+	"\nimport java.io.OutputStreamWriter;"
+	"\nimport java.io.IOException;"
+	"\nimport java.io.FileNotFoundException;"
+	"\nimport java.io.FileOutputStream;"
+	"\nimport java.io.Serializable;"
+
+
+	"\nimport java.io.InputStream;"
+	"\nimport java.util.stream.Collectors;"
+	"\nimport java.io.InputStreamReader;"
+	"\nimport java.io.BufferedReader;"
+	"\nimport java.io.FileInputStream;"
+
+
+
+	"\nimport java.nio.charset.Charset;"
+	"\nimport java.nio.charset.StandardCharsets;"
+    # "\nimport javax.validation.constraints.NotNull;"
+    # "\nimport javax.validation.constraints.NotEmpty;"
+    "\n"
+    #"\nimport com.fasterxml.jackson.annotation.JsonAlias;"
+    #"\nimport com.fasterxml.jackson.annotation.JsonAnyGetter;"
+    #"\nimport com.fasterxml.jackson.annotation.JsonAnySetter;"
+    #"\nimport com.fasterxml.jackson.annotation.JsonCreator;"
+    #"\nimport com.fasterxml.jackson.annotation.JsonFormat;"
+    "\nimport com.fasterxml.jackson.annotation.JsonIgnore;"
+    #"\nimport com.fasterxml.jackson.annotation.JsonIgnoreProperties;"
+    #"\nimport com.fasterxml.jackson.annotation.JsonInclude;"
+    #"\nimport com.fasterxml.jackson.annotation.JsonProperty;"
+    #"\nimport com.fasterxml.jackson.annotation.JsonSubTypes;"
+    #"\nimport com.fasterxml.jackson.annotation.JsonTypeInfo;"
+    #"\nimport com.fasterxml.jackson.annotation.JsonTypeName;"
+}
+where {}
