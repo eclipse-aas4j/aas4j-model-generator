@@ -58,7 +58,6 @@ template idstt:basic-imports {
 	"\nimport java.io.FileInputStream;"
 
 
-
 	"\nimport java.nio.charset.Charset;"
 	"\nimport java.nio.charset.StandardCharsets;"
     # "\nimport javax.validation.constraints.NotNull;"
