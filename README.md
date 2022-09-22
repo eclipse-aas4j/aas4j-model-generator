@@ -1,4 +1,8 @@
-# The AAS Code Generation Tool for Java
+:warning:  **Attention** - this project is the new home for the 
+AAS libraries for java previously available in [admin-shell-io](https://github.com/admin-shell-io).
+
+# Eclipse AAS4J - AAS Code Generation Tool for Java (:construction: migration in progress, initial contribution)
+
 
 This is a tool for the automated creation of a Java library containing all classes, properties and enumerations of the Asset Administration Shell (AAS) Metamodel. The tool itself is completly written in Java and uses the shapes constraint language (SHACL) to specify annotations and cardinalities for the Java classes.
 
@@ -26,7 +30,7 @@ The project contains several modules:
 
 # How to Contribute
 
-We always look for contributions, bug reports, feature requests etc. Simply open an [issue](https://github.com/admin-shell-io/java-generator/issues) or - even better - directly propose a change through a [pull request](https://github.com/admin-shell-io/java-generator/pulls).
+We always look for contributions, bug reports, feature requests etc. Simply open an [issue](https://github.com/eclipse-digitaltwin/aas4j-model-generator/issues) or - even better - directly propose a change through a [pull request](https://github.com/eclipse-digitaltwin/aas4j-model-generator/pulls).
 
 # Documentation
 
@@ -34,8 +38,10 @@ A detailed documentation how to use the tool and how to prepare the input and th
 
 # Contributors
 
+An updated list of the committers can be found here: https://projects.eclipse.org/projects/dt.aas4j/who
+
 | Name        | Affiliation           | Github Account | Parent | AAS  | Util | Generator |
---- | --- | --- | :---: | :---: | :---: | :---: |
+|--- | --- | --- | :---: | :---: | :---: | :---: |
 | Sebastian Bader | SAP SE | [sebbader](https://github.com/sebbader) | x | x | x | x |
 | Matthias Böckmann | Fraunhofer IAIS | [maboeckmann](https://github.com/maboeckmann) | x | x | x | x |
 | Pascal Linden | Fraunhofer IAIS | [plinden](https://github.com/plinden) | x | x | x | x |

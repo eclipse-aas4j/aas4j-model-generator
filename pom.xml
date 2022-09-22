@@ -4,7 +4,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>io.admin-shell.aas</groupId>
+    <groupId>org.eclipse.aas4j</groupId>
     <artifactId>common</artifactId>
     <packaging>pom</packaging>
     <version>${revision}</version>
@@ -12,7 +12,7 @@
 
     <name>AAS Code Gen Tool</name>
     <description>The Code Generation Tool to create Java classes of the AAS Metamodel.</description>
-    <url>https://github.com/admin-shell-io/java-generator</url>
+    <url>https://github.com/eclipse-digitaltwin/aas4j-model-generator</url>
     <inceptionYear>2021</inceptionYear>
     <organization>
       <name>Fraunhofer Institute for Intelligent Analysis and Information Systems IAIS</name>
@@ -29,9 +29,9 @@
 	<developers>
 		<developer>
 			<name>Sebastian Bader</name>
-			<email>sebastian.bader@iais.fraunhofer.de</email>
-			<organization>Fraunhofer Institute for Intelligent Analysis and Information Systems IAIS</organization>
-			<organizationUrl>https://www.iais.fraunhofer.de/</organizationUrl>
+			<email>s.bader@sap.com</email>
+			<organization>SAP SE</organization>
+			<organizationUrl>https://www.sap.com/</organizationUrl>
 			<roles>
 				<role>lead</role>
 				<role>developer</role>
@@ -60,7 +60,7 @@
     </modules>
     <properties>
   		  <!-- General -->
-        <revision>2.0.0-SNAPSHOT</revision>
+        <revision>1.2.0</revision>
         <jackson.version>2.11.2</jackson.version>
         <!--<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>-->
     		<email>contact@ids.fraunhofer.de</email>
@@ -77,14 +77,6 @@
 
     <profiles>
         <profile>
-            <id>dev-bader-aas</id>
-            <properties>
-                <infomodel-sourcebase>
-                    ../aas-specs/schemas/rdf
-                </infomodel-sourcebase>
-            </properties>
-        </profile>
-        <profile>
             <id>CI</id>
             <properties>
                 <infomodel-sourcebase>
@@ -100,30 +92,6 @@
                 </infomodel-sourcebase>
             </properties>
         </profile>
-    		<profile>
-    			<id>MB</id>
-    			<properties>
-    				<infomodel-sourcebase>
-    					../InfoModel
-    				</infomodel-sourcebase>
-    			</properties>
-    		</profile>
-    		<profile>
-    			<id>MB-AAS</id>
-    			<properties>
-    				<infomodel-sourcebase>
-    					../aas-specs/schemas/rdf/full
-    				</infomodel-sourcebase>
-    			</properties>
-    		</profile>
-    		<profile>
-    			<id>MB-AAS-minimal</id>
-    			<properties>
-    				<infomodel-sourcebase>
-    					../aas-specs/schemas/rdf/minimal
-    				</infomodel-sourcebase>
-    			</properties>
-    		</profile>
         <profile>
             <id>format</id>
             <properties>
@@ -132,22 +100,6 @@
                 </infomodel-sourcebase>
             </properties>
         </profile>
-    		<profile>
-    			<id>PNL</id>
-    			<properties>
-    				<infomodel-sourcebase>
-    					../InformationModel
-    				</infomodel-sourcebase>
-    			</properties>
-    		</profile>
-        <profile>
-    			<id>PNL-AAS</id>
-    			<properties>
-    				<infomodel-sourcebase>
-    					../aas-specs/schemas/rdf
-    				</infomodel-sourcebase>
-    			</properties>
-    		</profile>
         <profile>
             <id>AAS</id>
             <properties>
