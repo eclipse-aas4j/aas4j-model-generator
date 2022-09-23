@@ -44,7 +44,7 @@ where {
         ?classShape sh:targetClass ?superClass ;
             (sh:xone|sh:or)*/rdf:rest*/rdf:first*/sh:property ?propertyShape .
         ?propertyShape sh:path ?property ;
-        sh:maxCount ?maxCount .
+            sh:maxCount ?maxCount .
     }
 
     BIND(

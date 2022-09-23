@@ -110,12 +110,14 @@ public class Generator {
 
         while (dirIterator.hasNext()) {
             String currentDir = dirIterator.next();
-            String currentPattern = dirPatternIterator.next();
-            try {
-                loadVocabularyFiles(currentDir, currentPattern);
-            }
-            catch (IOException e) {
-                System.err.println( "Recursively getting vocabulary files failed. Skipping directory '" +currentDir+ "' with pattern '" +currentPattern+ "'. Reason: " + e.getMessage() );
+
+            while (dirPatternIterator.hasNext()) {
+                String currentPattern = dirPatternIterator.next();
+                try {
+                    loadVocabularyFiles(currentDir, currentPattern);
+                } catch (IOException e) {
+                    System.err.println("Recursively getting vocabulary files failed. Skipping directory '" + currentDir + "' with pattern '" + currentPattern + "'. Reason: " + e.getMessage());
+                }
             }
 
         }

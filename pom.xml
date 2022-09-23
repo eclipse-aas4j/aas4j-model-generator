@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>org.eclipse.aas4j</groupId>
-    <artifactId>common</artifactId>
+    <artifactId>generator-parent</artifactId>
     <packaging>pom</packaging>
     <version>${revision}</version>
 
@@ -56,7 +56,7 @@
     <modules>
         <module>util</module>
         <module>generator</module>
-        <module>aas</module>
+        <module>model</module>
     </modules>
     <properties>
   		  <!-- General -->
@@ -77,11 +77,9 @@
 
     <profiles>
         <profile>
-            <id>CI</id>
+            <id>dev</id>
             <properties>
-                <infomodel-sourcebase>
-                    InformationModel
-                </infomodel-sourcebase>
+                <infomodel-sourcebase>../aas-specs/schemas/rdf</infomodel-sourcebase>
             </properties>
         </profile>
         <profile>
@@ -104,7 +102,7 @@
             <id>AAS</id>
             <properties>
                 <ontology.title>Asset Administration Shell</ontology.title>
-                <ontology.namespace>https://admin-shell.io/aas/3/0/RC01/</ontology.namespace>
+                <ontology.namespace>https://admin-shell.io/aas/3/0/RC02/</ontology.namespace>
                 <ontology.namespace.prefix>aas</ontology.namespace.prefix>
             </properties>
         </profile>

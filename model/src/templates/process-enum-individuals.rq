@@ -31,9 +31,10 @@ template idstt:process-enum-individuals(?class) {
 	#Finally, turn all of that into upper case
 	if(?useJackson, "",
 		CONCAT(
-		"@IRI(\"",
-		st:call-template(idstt:to_full_identifier, ?individual),
-		"\")\n")
+		    "@IRI(\"",
+		    st:call-template(idstt:to_full_identifier, ?individual),
+		    "\")\n"
+		)
 	)
 	ucase(replace(st:call-template(idstt:to_class_name, ?individual), "([a-z])([A-Z])", CONCAT("$1", "_", "$2")))
     ","

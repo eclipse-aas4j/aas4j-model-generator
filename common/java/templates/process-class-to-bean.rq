@@ -70,11 +70,13 @@ template idstt:process-class-to-bean(?class) {
 		    "id = VocabUtil.getInstance().createRandomUrl(\"",
             lcase(substr(st:call-template(idstt:to_class_name, ?class), 1, 1)),
 		    substr(st:call-template(idstt:to_class_name, ?class), 2),
-		    "\");"
+		    "\");\n\t"
 		),
 	  # else
 	    ""
 	)
+
+	st:call-template(idstt:init-default-fields, ?class)
 	"\n\t}"
 	"\n"
     

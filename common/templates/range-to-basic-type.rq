@@ -33,7 +33,7 @@ template idstt:range-to-basic-type(?property, ?ontologyRange, ?class, ?isArray) 
         if ( str(?range) = str(<xsd:double>), if (?isArray = false, "double", "Double"),
         if ( str(?range) = str(<xsd:boolean>), if (?isArray = false, "boolean", "Boolean"),
         if ( str(?range) = str(<xsd:byte>), if (?isArray = false, "byte[]", "Byte[]"),
-        if ( str(?range) = str(<xsd:base64Binary>), if (?isArray = false, "byte[]", "Byte[]"),
+        if ( str(?range) = str(<xsd:base64Binary>), if (?isArray = false, "byte[]", "Bytes[]"),
 		if ( str(?range) = str(<xsd:hexBinary>), if (?isArray = false, "byte[]", "Byte[]"),
 
 
