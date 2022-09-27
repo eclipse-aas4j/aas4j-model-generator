@@ -1,0 +1,64 @@
+#
+# Copyright (c) 2021 Fraunhofer-Gesellschaft zur Foerderung der angewandten Forschung e. V.
+# Copyright (c) 2022 SAP SE
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+
+prefix idstt: <https://w3id.org/idsa/transformationtemplates/>
+
+#
+# AAS LangString appear as a basic datatype (rdf:langStrin) in
+# the model but need to be represented as Java classes, including
+# DefaultLangString and a Builder, instead of a native Java type.
+# Therefore, an own template set is required.
+#
+template idstt:create-lang-string-builder(?class) {
+
+    st:call-template(idstt:get-license)
+    st:call-template(idstt:get-package, 'builder')
+
+    st:call-template(idstt:basic-imports)
+
+    "\n"
+    "public abstract class " st:call-template(idstt:to_builder_name, ?class) "<T extends " st:call-template(idstt:to_interface_name, ?class)
+        ", B extends " st:call-template(idstt:to_builder_name, ?class) "<T, B>> extends ExtendableBuilder<T, B> {\n"
+
+
+    # method implementation
+
+    "\n\t/**\n"
+    "\n\t * This function allows setting a value for text\n"
+    "\n\t * @param text desired value to be set\n"
+    "\n\t * @return Builder object with new value for text\n"
+    "\n\t */\n"
+    "\n\tpublic B text(String text) {\n"
+    "\t\tgetBuildingInstance().setText(text);\n"
+    "\t\treturn getSelf();\n"
+    "\t}\n"
+
+    "\n\t/**\n"
+    "\n\t * This function allows setting a value for language\n"
+    "\t * @param language desired value to be set\n"
+    "\n\t * @return Builder object with new value for language\n"
+    "\n\t */\n"
+    "\n\tpublic B language(String language) {\n"
+    "\t\tgetBuildingInstance().setLanguage(language);\n"
+    "\t\treturn getSelf();\n"
+    "\t}\n"
+
+    "\n}\n"
+
+}
+WHERE {
+}

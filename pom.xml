@@ -63,12 +63,12 @@
         <revision>1.2.0</revision>
         <jackson.version>2.11.2</jackson.version>
         <!--<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>-->
-    		<email>contact@ids.fraunhofer.de</email>
+        <email>contact@ids.fraunhofer.de</email>
 
-    		<!-- Build info -->
-    		<java.version>11</java.version>
-    		<maven.compiler.release>${java.version}</maven.compiler.release>
-    		<maven.minimum.version>3.3.9</maven.minimum.version>
+        <!-- Build info -->
+        <java.version>11</java.version>
+        <maven.compiler.release>${java.version}</maven.compiler.release>
+        <maven.minimum.version>3.3.9</maven.minimum.version>
 
         <gpg.keyname>0xDFCC34A6</gpg.keyname>
         <plugin.license.version>4.1</plugin.license.version>

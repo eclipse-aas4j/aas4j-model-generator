@@ -53,6 +53,7 @@ template idstt:range-to-basic-type(?property, ?ontologyRange, ?class, ?isArray) 
         if (str(?range) = str(<rdfs:Resource>), "RdfResource",
         if (str(?range) = str(<rdfs:Literal>), if(?doNotUseTypedLiterals, "String", "TypedLiteral"),
         if (str(?range) = str(<rdf:PlainLiteral>), "TypedLiteral", #Should not be used anywhere anymore
+        # Do *not* use native rdf:langString concept for the AAS:
         if (str(?range) = str(<rdf:langString>), if(?doNotUseTypedLiterals, "LangString", "TypedLiteral"),
 
 

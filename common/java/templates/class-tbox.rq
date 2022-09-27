@@ -25,7 +25,7 @@ template idstt:class-tbox(?class) {
           "",
       # else
           kg:write(
-              concat("/tmp/", st:call-template(idstt:package-to-path, 'bean'), st:call-template(idstt:to_bean_name, ?class), ".java"),
+              concat("/tmp/", st:call-template(idstt:package-to-path, 'bean'), st:call-template(idstt:to_bean_name, ?class), ".java"),  # for DefaultImplementations
               st:call-template(idstt:process-class-to-bean, ?class)
           )
       )

@@ -1,5 +1,6 @@
 #
 # Copyright (c) 2021 Fraunhofer-Gesellschaft zur Foerderung der angewandten Forschung e. V.
+# Copyright (c) 2022 SAP SE
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -18,7 +19,11 @@ prefix idstt: <https://w3id.org/idsa/transformationtemplates/>
 
 template idstt:custom-static-files {
     kg:write(concat("/tmp/", st:call-template(idstt:package-to-path, 'interface'), "LangString.java"),
-                    st:call-template(idstt:create-lang-string))
+                    st:call-template(idstt:create-lang-string-interface))
+    kg:write(concat("/tmp/", st:call-template(idstt:package-to-path, 'builder'), "LangStringBuilder.java"),
+                    st:call-template(idstt:create-lang-string-builder, "LangString"))
+    kg:write(concat("/tmp/", st:call-template(idstt:package-to-path, 'bean'), "DefaultLangString.java"),
+                    st:call-template(idstt:create-lang-string-impl))
     kg:write(concat("/tmp/", st:call-template(idstt:package-to-path, 'annotations'), "IRI.java"),
                     st:call-template(idstt:create-iri))
     kg:write(concat("/tmp/", st:call-template(idstt:package-to-path, 'annotations'), "KnownSubtypes.java"),

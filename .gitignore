@@ -6,8 +6,7 @@
 
 .idea/
 
-aas/src/main/java/**/*.java
-ids/src/main/java/de/fraunhofer/iais/eis/*.java
+model/src/main/java/**/*.java
 
 visualization/*.plantuml
 jsonld-context/context.json

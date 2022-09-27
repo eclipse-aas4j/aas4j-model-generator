@@ -21,7 +21,9 @@ prefix idstt: <https://w3id.org/idsa/transformationtemplates/>
 # pom.xml in the main directory via <property> tags.
 
 template st:profile {}
-where {}
+where {
+
+}
 
 function st:get-namespace() {
    "${ontology.namespace}"

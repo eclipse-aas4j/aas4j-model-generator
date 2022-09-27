@@ -25,7 +25,7 @@ template idstt:range-to-java-type(?class, ?property, ?range, ?bracketOpen, ?brac
         concat(
             concat(
 				#For this one specific property, we want to use Collection instead of List. Writing it in a format in which further properties can be added easily.
-				if(EXISTS { VALUES ?property { <https://admin-shell.io/aas/3/0/RC01/SubmodelElementCollection/value> } } , "Collection", "List"),
+				if(EXISTS { VALUES ?property { <https://admin-shell.io/aas/3/0/RC02/SubmodelElementCollection/value> } } , "Collection", "List"),
 				str(?bracketOpen)),
             concat(st:call-template(idstt:range-to-basic-type, ?property, ?range, ?class, ?isArray), str(?bracketClose))
         ),

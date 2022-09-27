@@ -1,5 +1,6 @@
 #
 # Copyright (c) 2021 Fraunhofer-Gesellschaft zur Foerderung der angewandten Forschung e. V.
+# Copyright (c) 2022 SAP SE
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -16,7 +17,7 @@
 
 prefix idstt: <https://w3id.org/idsa/transformationtemplates/>
 
-template idstt:create-lang-string {
+template idstt:create-lang-string_deprecated {
 
     st:call-template(idstt:get-license)
     st:call-template(idstt:get-package, 'interface')

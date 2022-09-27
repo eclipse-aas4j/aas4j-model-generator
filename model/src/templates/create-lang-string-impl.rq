@@ -1,0 +1,125 @@
+#
+# Copyright (c) 2021 Fraunhofer-Gesellschaft zur Foerderung der angewandten Forschung e. V.
+# Copyright (c) 2022 SAP SE
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+
+prefix idstt: <https://w3id.org/idsa/transformationtemplates/>
+
+#
+# AAS LangString appear as a basic datatype (rdf:langStrin) in
+# the model but need to be represented as Java classes, including
+# DefaultLangString and a Builder, instead of a native Java type.
+# Therefore, an own template set is required.
+#
+template idstt:create-lang-string-impl {
+
+    st:call-template(idstt:get-license)
+    st:call-template(idstt:get-package, 'bean')
+    st:call-template(idstt:basic-imports)
+
+    "\n@IRI(\"rdf:langString\")"
+    "\npublic class DefaultLangString implements LangString {\n"
+    "\n\n\t"
+
+    "protected String language = null;\n"
+    "protected String text = null;\n"
+
+    "public DefaultLangString() {\n"
+             "super();\n"
+         "}"
+
+    "public DefaultLangString(String textAndLanguage) {\n"
+             "if(textAndLanguage.contains(\"@\"))\n"
+             "{"
+             "    String[] splitString = textAndLanguage.split(\"@\");\n"
+             "    this.text = splitString[0];\n"
+             "    this.language = splitString[1];\n"
+             "}\n"
+             "else\n"
+             "{\n"
+             "    this.text = textAndLanguage;\n"
+             "}\n"
+         "}\n"
+
+    "public DefaultLangString(String text, String language) {\n"
+             "this.text = text;\n"
+             "this.language = language;\n"
+         "}\n"
+
+
+    "@Override\n"
+    "public String getLanguage() {\n"
+             "return language;\n"
+         "}"
+
+    "@Override\n"
+    "public void setLanguage(String language) {\n"
+            "this.language = language;\n"
+    "}\n"
+
+    "@Override\n"
+    "public String getText() {"
+             "return text;"
+    "}\n"
+
+    "@Override\n"
+    "public void setText(String text) {"
+             "this.text = text;"
+    "}\n"
+
+
+    "@Override\n"
+    "public boolean equals(Object obj)"
+    "{"
+     "if (this == obj) {"
+         "return true;"
+     "} else if (obj == null) {"
+         "return false;"
+     "} else if (this.getClass() != obj.getClass()) {"
+         "return false;"
+     "} else {"
+         "DefaultLangString other = (DefaultLangString) obj;"
+         "return Objects.equals(this.language, other.language) &&"
+                 "Objects.equals(this.text, other.text);"
+     "}"
+    "}"
+
+    "@Override\n"
+    "public int hashCode()"
+    "{"
+        "return Objects.hash(this.language, this.text);"
+    "}"
+
+
+    "@Override\n"
+    "public String toString() {"
+        "String result = this.text;"
+        "if (this.language != null && !this.language.isEmpty())"
+        "{"
+            "return \"\\\"\" + result + \"\\\"@\" + this.language;"
+        "}"
+        "return result;"
+    "}\n"
+
+    if(?hasExtendable,
+        st:call-template(idstt:static-builder-in-bean, "LangString"),
+        ""
+    )
+
+    "\n}\n"
+}
+WHERE {
+    BIND( st:has-extendable-builder() as ?hasExtendable )
+}
