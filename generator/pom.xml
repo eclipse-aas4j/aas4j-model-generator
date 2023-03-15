@@ -21,7 +21,7 @@
         <dependency>
             <groupId>fr.inria.wimmics</groupId>
             <artifactId>kgtool</artifactId>
-            <version>3.2.0</version>
+            <version>3.2.1</version>
             <exclusions>
                 <exclusion>
                     <artifactId>jws</artifactId>
