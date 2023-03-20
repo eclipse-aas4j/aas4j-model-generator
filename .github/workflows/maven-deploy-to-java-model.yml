@@ -20,7 +20,7 @@ jobs:
         with:
           repository: admin-shell-io/aas-specs
           path: aas-specs
-          ref: 81e9f3b7aabe4c0a77e738ba9f52415daf589cd6 # use only until the latest bugfix is merged (state: November 2021)
+          ref: af46e9f7bc0be6f1e875b68a35f2880fa188d92c # first commit with V3.0 schemas (state: March 2023)
 
       - name: Show current Working directory
         run: ls
