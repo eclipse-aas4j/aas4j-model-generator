@@ -148,7 +148,7 @@
             <!-- cleanup generated java sources and temporary stuff in ${tmp-path} -->
             <plugin>
                 <artifactId>maven-clean-plugin</artifactId>
-                <version>3.2.0</version>
+                <version>3.3.1</version>
                 <configuration>
                     <filesets>
                         <fileset>
